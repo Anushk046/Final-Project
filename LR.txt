@@ -1,0 +1,34 @@
+#Importing all the necessary python libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import linear_model#Reading Dataset/CSV file
+df = pd.read_csv("EFD.csv")
+df#Setting up x_label and y_label
+x = df.drop(['alpha'],axis = 1).values
+y = df['alpha'].values
+print(x)
+print(y)
+#Give the values for training and testing the model
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size = 0.4, random_state = 0)
+#Importing the Linea Regression Model
+from sklearn.linear_model import LinearRegression
+ml = LinearRegression()
+#Fitting the labels in the model
+ml.fit(x_train, y_train)
+y_pred = ml.predict(x_test)
+print(y_pred)
+ml.predict([[2, 1, 2, 0.224731, 0.124061, 0.410785]])
+#Checking the score of the model to see how well it works
+from sklearn.metrics import r2_score
+r2_score(y_test, y_pred)
+#Plotting the Diagram of Predicted vs Actualvalues
+plt.figure(figsize=(12, 10))
+plt.scatter(y_test, y_pred, color ='green', marker = 'o')
+plt.xlabel('Actual')
+plt.ylabel('Predicted')
+plt.title('Actual vs Predicted')
+#Checking the Before and After Differences in the values
+pred_y_df = pd.DataFrame({'Actual Value': y_test, 'Predicted Value': y_pred, 'Difference': y_test - y_pred})
+pred_y_df[0:30]
